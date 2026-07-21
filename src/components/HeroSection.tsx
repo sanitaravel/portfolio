@@ -13,7 +13,7 @@ export default function HeroSection() {
             Alexander Koshcheev
           </h1>
           <p className="mt-4 text-lg md:text-xl text-text/80 max-w-xl">
-            Junior full-stack developer building modern web apps with React, TypeScript, Nest.js, and Python.
+            Junior full-stack developer: React, TypeScript, Nest.js, and Python.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <a
