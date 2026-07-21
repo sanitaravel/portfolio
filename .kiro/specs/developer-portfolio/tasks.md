@@ -79,7 +79,7 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - Test active section highlighting
     - _Requirements: 2.1, 2.2, 8.2_
 
-- [ ] 5. Implement page sections and home page
+- [x] 5. Implement page sections and home page
   - [x] 5.1 Implement Hero section component
     - Create `src/components/HeroSection.tsx`
     - Display developer name as h1 (largest text element)
@@ -120,7 +120,7 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - Generate forms with arbitrary valid/invalid field combinations, verify error count equals number of invalid fields
     - **Validates: Requirements 4.5**
 
-  - [ ] 5.7 Assemble main page with all sections
+  - [x] 5.7 Assemble main page with all sections
     - Create `src/app/page.tsx`
     - Import and compose HeroSection, ProjectsSection, ContactSection
     - Call `getAllProjects()` at build time and pass data to ProjectsSection
