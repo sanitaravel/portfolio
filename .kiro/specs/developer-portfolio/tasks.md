@@ -22,7 +22,7 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - Add 2-3 sample markdown files with valid frontmatter (title, description, tags, date) and body content
     - _Requirements: 1.1, 1.2_
 
-- [ ] 2. Implement data layer (Project Loader)
+- [x] 2. Implement data layer (Project Loader)
   - [x] 2.1 Implement frontmatter validation module
     - Create `src/lib/validate-frontmatter.ts`
     - Implement `validateFrontmatter(data: unknown): ValidationResult`
@@ -30,12 +30,12 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - Return `{ valid: boolean, errors: string[] }`
     - _Requirements: 1.2, 1.3_
 
-  - [ ]* 2.2 Write property test for frontmatter round-trip consistency
+  - [x] 2.2 Write property test for frontmatter round-trip consistency
     - **Property 1: Frontmatter extraction round-trip**
     - Generate arbitrary valid frontmatter objects, serialize to YAML in markdown, parse with gray-matter, validate result matches original
     - **Validates: Requirements 1.1, 1.2**
 
-  - [ ]* 2.3 Write property test for invalid frontmatter rejection
+  - [x] 2.3 Write property test for invalid frontmatter rejection
     - **Property 2: Invalid frontmatter rejection**
     - Generate frontmatter with missing/invalid fields, verify Project Loader excludes them without throwing and valid files still appear
     - **Validates: Requirements 1.3**
@@ -46,7 +46,7 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - Export a `renderMarkdown(content: string): string` function
     - _Requirements: 1.4_
 
-  - [ ] 2.5 Implement Project Loader module
+  - [x] 2.5 Implement Project Loader module
     - Create `src/lib/projects.ts`
     - Implement `getAllProjects(): Project[]` — reads all `.md` files from `/content/projects/`, parses with gray-matter, validates, renders markdown, sorts by date descending with filename as tiebreaker
     - Implement `getProjectBySlug(slug: string): Project | null` — returns single project or null
