@@ -73,7 +73,7 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - Ensure menu button and links meet 44x44px touch target on mobile
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 8.2, 8.4_
 
-  - [ ]* 4.2 Write unit tests for Navbar component
+  - [x] 4.2 Write unit tests for Navbar component
     - Test renders Home, Projects, Contact links
     - Test hamburger menu toggle visibility below 768px
     - Test active section highlighting
@@ -87,7 +87,7 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - Add CTA button(s) styled with accent color linking to Projects and/or Contact sections
     - _Requirements: 6.1, 6.2, 6.3_
 
-  - [ ] 5.2 Implement Projects section and ProjectCard component
+  - [x] 5.2 Implement Projects section and ProjectCard component
     - Create `src/components/ProjectsSection.tsx`
     - Create `src/components/ProjectCard.tsx` using Tailwind utility classes
     - Display project cards with title, description, tags, and date
@@ -105,17 +105,17 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - On valid submit: construct mailto: link and open it, display confirmation message
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7_
 
-  - [ ]* 5.4 Write property tests for contact form validation
+  - [x] 5.4 Write property tests for contact form validation
     - **Property 4: Non-whitespace field validation**
     - Generate arbitrary strings, verify name/message fields accept iff at least one non-whitespace char
     - **Validates: Requirements 4.2, 4.4**
 
-  - [ ]* 5.5 Write property test for email format validation
+  - [x] 5.5 Write property test for email format validation
     - **Property 5: Email format validation**
     - Generate strings matching/not matching local-part@domain pattern, verify validator accepts/rejects correctly
     - **Validates: Requirements 4.3**
 
-  - [ ]* 5.6 Write property test for validation error completeness
+  - [x] 5.6 Write property test for validation error completeness
     - **Property 6: Validation error completeness**
     - Generate forms with arbitrary valid/invalid field combinations, verify error count equals number of invalid fields
     - **Validates: Requirements 4.5**
