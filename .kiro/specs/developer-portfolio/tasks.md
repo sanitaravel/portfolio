@@ -23,7 +23,7 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - _Requirements: 1.1, 1.2_
 
 - [ ] 2. Implement data layer (Project Loader)
-  - [ ] 2.1 Implement frontmatter validation module
+  - [x] 2.1 Implement frontmatter validation module
     - Create `src/lib/validate-frontmatter.ts`
     - Implement `validateFrontmatter(data: unknown): ValidationResult`
     - Validate: title (required string, max 100 chars), description (required string, max 300 chars), tags (required string array), date (required string, YYYY-MM-DD regex + Date validity)
@@ -40,7 +40,7 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - Generate frontmatter with missing/invalid fields, verify Project Loader excludes them without throwing and valid files still appear
     - **Validates: Requirements 1.3**
 
-  - [ ] 2.4 Implement markdown processing pipeline
+  - [x] 2.4 Implement markdown processing pipeline
     - Create `src/lib/markdown.ts`
     - Set up unified/remark/rehype pipeline to convert markdown body to HTML
     - Export a `renderMarkdown(content: string): string` function
