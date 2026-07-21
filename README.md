@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio Website — Alexander Koshcheev
+
+A personal developer portfolio built with Next.js 16, React 19, and Tailwind CSS 4. It showcases projects, skills, education, and provides a contact form powered by Resend.
+
+## Features
+
+- **Hero & Bio** — Introduction section with photo, skills overview, education, and downloadable documents (resume, transcript, letter of recommendation).
+- **Projects** — Markdown-driven project pages loaded from `content/projects/`. Each `.md` file uses YAML frontmatter for metadata (title, description, tags, date) and is rendered to HTML via unified/remark/rehype.
+- **Dynamic project routes** — Individual project pages at `/projects/[slug]` with full markdown content and an image lightbox.
+- **Contact form** — Client-side validated form that posts to `/api/contact`. The API route applies rate limiting, input validation, and sends email via the Resend SDK.
+- **Dark theme** — Dark-mode-first design using JetBrains Mono and custom Tailwind color tokens.
+- **Static export ready** — Configured with `images.unoptimized` for static hosting.
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16 (App Router) |
+| UI | React 19, Tailwind CSS 4, `@tailwindcss/typography` |
+| Markdown | unified, remark-parse, remark-rehype, rehype-raw, rehype-stringify, gray-matter |
+| Email | Resend |
+| Testing | Vitest, Testing Library, fast-check (property-based tests) |
+| Linting | ESLint with eslint-config-next |
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 20+
+- npm
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Environment variables
+
+Create a `.env.local` file in the project root:
+
+```
+RESEND_API_KEY=your_resend_api_key
+CONTACT_EMAIL_TO=your@email.com
+```
+
+### Development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+```
 
-## Learn More
+### Run tests
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm test
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+├── content/projects/       # Markdown project files
+├── public/                 # Static assets (images, PDFs)
+├── src/
+│   ├── app/                # Next.js App Router pages & API routes
+│   ├── components/         # React components (Hero, Bio, Projects, Contact, Navbar, etc.)
+│   └── lib/                # Utilities (markdown rendering, validation, rate limiting, email)
+└── tests/
+    ├── component/          # Component tests (Testing Library)
+    ├── property/           # Property-based tests (fast-check)
+    └── unit/               # Unit tests
+```
 
-## Deploy on Vercel
+## Adding a Project
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Create a new `.md` file in `content/projects/`:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```markdown
+---
+title: "Project Name"
+description: "Short description"
+tags: ["React", "TypeScript"]
+date: "2025-01-15"
+---
+
+Full project write-up in markdown...
+```
+
+The project will appear automatically on the homepage, sorted by date (newest first).
+
+## License
+
+Private — not for redistribution.
