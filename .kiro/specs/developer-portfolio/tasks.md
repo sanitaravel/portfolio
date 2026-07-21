@@ -127,7 +127,7 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - Add section IDs for scroll navigation (`id="home"`, `id="projects"`, `id="contact"`)
     - _Requirements: 2.3, 6.1, 6.2, 6.3_
 
-- [ ] 6. Checkpoint - Main page sections complete
+- [x] 6. Checkpoint - Main page sections complete
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 7. Implement project detail pages and 404
