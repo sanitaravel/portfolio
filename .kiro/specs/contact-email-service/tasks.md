@@ -22,14 +22,14 @@ Replace the mailto-based contact form with a server-side email delivery system u
     - Accept an optional `nowFn` parameter (defaulting to `Date.now`) for deterministic testing
     - _Requirements: 5.1, 5.2, 5.3_
 
-  - [ ]* 2.2 Write property test for rate limiter (Property 4)
+  - [x] 2.2 Write property test for rate limiter (Property 4)
     - **Property 4: Rate limiter enforces window-based request throttling**
     - Test file: `tests/property/rate-limiter.property.test.ts`
     - For any IP string and sequence of requests, verify exactly 5 are allowed within a 15-minute window and subsequent requests are rejected. Verify reset after window elapses.
     - Use `fast-check` with `{ numRuns: 100 }`
     - **Validates: Requirements 5.1, 5.2**
 
-  - [ ]* 2.3 Write unit tests for rate limiter
+  - [x] 2.3 Write unit tests for rate limiter
     - Test file: `tests/unit/rate-limiter.test.ts`
     - Test edge cases: first request allowed, boundary at exactly 5 requests, different IPs are independent, window reset behavior
     - _Requirements: 5.1, 5.2, 5.3_
@@ -43,7 +43,7 @@ Replace the mailto-based contact form with a server-side email delivery system u
     - Return `{ success: true }` on success, `{ success: false, error: string }` on failure
     - _Requirements: 1.1, 1.3, 1.4_
 
-  - [ ]* 3.2 Write unit tests for email sender
+  - [x] 3.2 Write unit tests for email sender
     - Test file: `tests/unit/email-sender.test.ts`
     - Mock the Resend SDK with `vi.mock('resend')`
     - Test success path, failure path, and verify parameter mapping (replyTo, body content)
