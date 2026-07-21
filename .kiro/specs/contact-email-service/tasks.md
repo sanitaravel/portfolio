@@ -13,8 +13,8 @@ Replace the mailto-based contact form with a server-side email delivery system u
     - Create a `.env.local` file (gitignored) with placeholder values for `RESEND_API_KEY` and `CONTACT_EMAIL_TO`
     - _Requirements: 6.1, 6.2_
 
-- [ ] 2. Implement rate limiter module
-  - [ ] 2.1 Create `src/lib/rate-limiter.ts`
+- [x] 2. Implement rate limiter module
+  - [x] 2.1 Create `src/lib/rate-limiter.ts`
     - Implement the `RateLimitEntry` and `RateLimitResult` interfaces as defined in the design
     - Implement `checkRateLimit(ip, maxRequests?, windowMs?)` function using a module-level `Map<string, RateLimitEntry>`
     - Default `maxRequests` to 5, default `windowMs` to 15 * 60 * 1000 (15 minutes)
@@ -34,8 +34,8 @@ Replace the mailto-based contact form with a server-side email delivery system u
     - Test edge cases: first request allowed, boundary at exactly 5 requests, different IPs are independent, window reset behavior
     - _Requirements: 5.1, 5.2, 5.3_
 
-- [ ] 3. Implement email sender module
-  - [ ] 3.1 Create `src/lib/email-sender.ts`
+- [x] 3. Implement email sender module
+  - [x] 3.1 Create `src/lib/email-sender.ts`
     - Implement `SendContactEmailParams` and `SendEmailResult` interfaces
     - Implement `sendContactEmail(params)` function that wraps `resend.emails.send()`
     - Set `from` to a noreply address, `to` to `params.toAddress`, `replyTo` to `params.email`
