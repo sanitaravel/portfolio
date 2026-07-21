@@ -79,8 +79,8 @@ Replace the mailto-based contact form with a server-side email delivery system u
 - [x] 5. Checkpoint
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 6. Update ContactForm component for server-side submission
-  - [ ] 6.1 Modify `src/components/ContactForm.tsx`
+- [x] 6. Update ContactForm component for server-side submission
+  - [x] 6.1 Modify `src/components/ContactForm.tsx`
     - Replace `mailto:` logic with `fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(values) })`
     - Add `isSubmitting` state — set `true` before fetch, `false` after response
     - Add `submitResult` state (`'success' | 'error' | null`) for feedback display
@@ -90,7 +90,7 @@ Replace the mailto-based contact form with a server-side email delivery system u
     - Preserve existing client-side validation before submission
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
 
-  - [ ]* 6.2 Write component tests for ContactForm
+  - [x] 6.2 Write component tests for ContactForm
     - Test file: `tests/component/ContactForm.test.tsx`
     - Mock `fetch` globally
     - Test loading state (button disabled, spinner/text shown during submission)
@@ -99,7 +99,7 @@ Replace the mailto-based contact form with a server-side email delivery system u
     - Test submit button is disabled during submission to prevent duplicates
     - _Requirements: 2.2, 2.3, 2.4, 2.5_
 
-- [ ] 7. Final checkpoint
+- [x] 7. Final checkpoint
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

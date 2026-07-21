@@ -14,39 +14,66 @@ export default function ContactForm() {
     message: "",
   });
   const [errors, setErrors] = useState<FieldError[]>([]);
-  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitResult, setSubmitResult] = useState<"success" | "error" | null>(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   function getFieldError(field: keyof ContactFormData): string | undefined {
     return errors.find((e) => e.field === field)?.message;
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
+    // Clear previous submit result
+    setSubmitResult(null);
+    setErrorMessage("");
+
+    // Client-side validation
     const validationErrors = validateContactForm(values);
     setErrors(validationErrors);
 
     if (validationErrors.length > 0) {
-      setSubmitted(false);
       return;
     }
 
-    // Construct mailto link and open it
-    const subject = encodeURIComponent(`Message from ${values.name}`);
-    const body = encodeURIComponent(
-      `Name: ${values.name}\nEmail: ${values.email}\n\n${values.message}`
-    );
-    const mailtoLink = `mailto:?subject=${subject}&body=${body}`;
-    window.open(mailtoLink, "_blank");
+    setIsSubmitting(true);
 
-    setSubmitted(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+
+      if (response.ok) {
+        setSubmitResult("success");
+        setValues({ name: "", email: "", message: "" });
+        setErrors([]);
+      } else {
+        const data = await response.json();
+        setSubmitResult("error");
+        setErrorMessage(data.error || "Something went wrong. Please try again.");
+      }
+    } catch {
+      setSubmitResult("error");
+      setErrorMessage("Network error. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
     <form onSubmit={handleSubmit} noValidate className="w-full max-w-lg mx-auto space-y-6">
-      {submitted && (
+      {submitResult === "success" && (
         <div className="p-4 rounded bg-accent/10 border border-accent text-accent text-sm">
-          Your message has been prepared. Your email client should open shortly.
+          Your message has been sent successfully!
+        </div>
+      )}
+
+      {submitResult === "error" && (
+        <div className="p-4 rounded bg-red-500/10 border border-red-500 text-red-400 text-sm">
+          {errorMessage}
         </div>
       )}
 
@@ -110,9 +137,10 @@ export default function ContactForm() {
       {/* Submit button */}
       <button
         type="submit"
-        className="w-full px-6 py-3 bg-accent text-bg font-semibold rounded hover:bg-accent/90 transition-colors min-h-11"
+        disabled={isSubmitting}
+        className="w-full px-6 py-3 bg-accent text-bg font-semibold rounded hover:bg-accent/90 transition-colors min-h-11 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Send Message
+        {isSubmitting ? "Sending..." : "Send Message"}
       </button>
     </form>
   );
