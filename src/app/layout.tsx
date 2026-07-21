@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${jetbrainsMono.variable} dark h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-bg text-text font-mono" suppressHydrationWarning>
+        <Navbar />
         {children}
       </body>
     </html>

@@ -60,11 +60,11 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - Generate lists of projects with various dates/slugs, verify output satisfies: for every pair (A, B), A.date > B.date OR (A.date === B.date AND A.slug <= B.slug)
     - **Validates: Requirements 1.5**
 
-- [-] 3. Checkpoint - Core data layer verification
+- [x] 3. Checkpoint - Core data layer verification
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 4. Implement navigation and layout components
-  - [ ] 4.1 Implement Navbar component with smooth scrolling
+- [x] 4. Implement navigation and layout components
+  - [x] 4.1 Implement Navbar component with smooth scrolling
     - Create `src/components/Navbar.tsx` using Tailwind utility classes (`fixed top-0 w-full`, etc.)
     - Render fixed-position navbar with Home, Projects, Contact links
     - Implement smooth scrolling via anchor links with `scrollIntoView({ behavior: 'smooth' })`
@@ -80,7 +80,7 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - _Requirements: 2.1, 2.2, 8.2_
 
 - [ ] 5. Implement page sections and home page
-  - [ ] 5.1 Implement Hero section component
+  - [x] 5.1 Implement Hero section component
     - Create `src/components/HeroSection.tsx`
     - Display developer name as h1 (largest text element)
     - Display tagline (max 150 chars) describing junior full-stack developer
@@ -96,7 +96,7 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - Handle empty projects list gracefully
     - _Requirements: 1.5, 1.6, 5.1, 8.3_
 
-  - [ ] 5.3 Implement Contact section with form validation
+  - [x] 5.3 Implement Contact section with form validation
     - Create `src/components/ContactSection.tsx`
     - Create `src/components/ContactForm.tsx` using Tailwind utility classes for form styling
     - Create `src/lib/contact-validation.ts` with `validateContactForm(data: ContactFormData): FieldError[]`
