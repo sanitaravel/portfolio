@@ -60,7 +60,7 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - Generate lists of projects with various dates/slugs, verify output satisfies: for every pair (A, B), A.date > B.date OR (A.date === B.date AND A.slug <= B.slug)
     - **Validates: Requirements 1.5**
 
-- [ ] 3. Checkpoint - Core data layer verification
+- [-] 3. Checkpoint - Core data layer verification
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 4. Implement navigation and layout components
