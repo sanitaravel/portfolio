@@ -131,7 +131,7 @@ Build a personal portfolio website using Next.js App Router with static export, 
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 7. Implement project detail pages and 404
-  - [ ] 7.1 Implement project detail page with dynamic routing
+  - [x] 7.1 Implement project detail page with dynamic routing
     - Create `src/app/projects/[slug]/page.tsx`
     - Use `generateStaticParams()` with `getProjectSlugs()` for static generation
     - Display full rendered markdown content (contentHtml)
@@ -146,7 +146,7 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - Generate valid YYYY-MM-DD strings, verify output contains full month name, numeric day, four-digit year, and round-trips to same calendar date
     - **Validates: Requirements 5.3**
 
-  - [ ] 7.3 Implement 404 page
+  - [x] 7.3 Implement 404 page
     - Create `src/app/not-found.tsx`
     - Display appropriate not-found message
     - Include link back to projects listing / home page
