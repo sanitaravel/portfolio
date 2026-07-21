@@ -55,7 +55,7 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - Handle empty folder gracefully (return empty array)
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6_
 
-  - [ ]* 2.6 Write property test for project sort ordering
+  - [x] 2.6 Write property test for project sort ordering
     - **Property 3: Project sort ordering invariant**
     - Generate lists of projects with various dates/slugs, verify output satisfies: for every pair (A, B), A.date > B.date OR (A.date === B.date AND A.slug <= B.slug)
     - **Validates: Requirements 1.5**
