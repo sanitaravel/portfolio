@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-bg: #262626;
+  --color-text: #FEFEFE;
+  --color-accent: #FF8014;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono",
+    Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+}

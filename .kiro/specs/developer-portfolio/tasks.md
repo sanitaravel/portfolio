@@ -6,8 +6,8 @@ Build a personal portfolio website using Next.js App Router with static export, 
 
 ## Tasks
 
-- [ ] 1. Set up project structure and configuration
-  - [ ] 1.1 Initialize Next.js project with App Router, configure static export, and set up Tailwind CSS
+- [x] 1. Set up project structure and configuration
+  - [x] 1.1 Initialize Next.js project with App Router, configure static export, and set up Tailwind CSS
     - Create Next.js project with TypeScript and App Router
     - Configure `next.config.js` with `output: 'export'`
     - Install and configure Tailwind CSS: create `tailwind.config.ts` with custom theme colors (`bg: '#262626'`, `text: '#FEFEFE'`, `accent: '#FF8014'`) and font family (`mono: ['JetBrains Mono', ...monospace]`)
@@ -17,7 +17,7 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - Set up base HTML structure with dark theme applied using Tailwind utility classes
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 7.1_
 
-  - [ ] 1.2 Create content directory and sample project files
+  - [x] 1.2 Create content directory and sample project files
     - Create `/content/projects/` directory
     - Add 2-3 sample markdown files with valid frontmatter (title, description, tags, date) and body content
     - _Requirements: 1.1, 1.2_
