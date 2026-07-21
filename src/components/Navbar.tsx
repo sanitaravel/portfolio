@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 const NAV_LINKS = [
   { label: "Home", href: "#home" },
@@ -11,43 +12,103 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState<string>("home");
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const cleanupRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
-    const sections = NAV_LINKS.map((link) =>
-      document.getElementById(link.href.slice(1))
-    ).filter(Boolean) as HTMLElement[];
-
-    if (sections.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        }
-      },
-      { rootMargin: "-50% 0px -50% 0px", threshold: 0 }
-    );
-
-    for (const section of sections) {
-      observer.observe(section);
+    // Clear active section when not on home page
+    if (!isHome) {
+      setActiveSection("");
+      return;
     }
 
-    return () => observer.disconnect();
-  }, []);
+    // Small delay to ensure sections are rendered after navigation
+    const timeout = setTimeout(() => {
+      const sections = NAV_LINKS.map((link) =>
+        document.getElementById(link.href.slice(1))
+      ).filter(Boolean) as HTMLElement[];
+
+      if (sections.length === 0) return;
+
+      // Determine active section from current scroll position
+      const detectActiveSection = () => {
+        const scrollY = window.scrollY + window.innerHeight / 2;
+        for (let i = sections.length - 1; i >= 0; i--) {
+          if (sections[i].offsetTop <= scrollY) {
+            setActiveSection(sections[i].id);
+            return;
+          }
+        }
+        setActiveSection(sections[0].id);
+      };
+
+      // Set initial active section based on hash or scroll position
+      const hash = window.location.hash.slice(1);
+      if (hash && sections.find((s) => s.id === hash)) {
+        setActiveSection(hash);
+      } else {
+        detectActiveSection();
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              setActiveSection(entry.target.id);
+            }
+          }
+        },
+        { rootMargin: "-50% 0px -50% 0px", threshold: 0 }
+      );
+
+      for (const section of sections) {
+        observer.observe(section);
+      }
+
+      const handleHashChange = () => {
+        const newHash = window.location.hash.slice(1);
+        if (newHash && sections.find((s) => s.id === newHash)) {
+          setActiveSection(newHash);
+        }
+      };
+
+      window.addEventListener("hashchange", handleHashChange);
+
+      cleanupRef.current = () => {
+        observer.disconnect();
+        window.removeEventListener("hashchange", handleHashChange);
+      };
+    }, 50);
+
+    return () => {
+      clearTimeout(timeout);
+      if (cleanupRef.current) {
+        cleanupRef.current();
+        cleanupRef.current = null;
+      }
+    };
+  }, [isHome]);
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
       e.preventDefault();
       const id = href.slice(1);
+
+      if (!isHome) {
+        // Navigate to home page with hash
+        window.location.href = `/${href}`;
+        return;
+      }
+
+      setActiveSection(id);
       const el = document.getElementById(id);
       if (el) {
         el.scrollIntoView({ behavior: "smooth" });
       }
       setMenuOpen(false);
     },
-    []
+    [isHome]
   );
 
   return (
@@ -125,7 +186,7 @@ export default function Navbar() {
               <a
                 href={link.href}
                 onClick={(e) => handleClick(e, link.href)}
-                className={`flex items-center min-h-11 px-6 py-3 transition-colors duration-200 ${
+                className={`flex items-center min-h-11 min-w-11 px-6 py-3 transition-colors duration-200 ${
                   activeSection === link.href.slice(1)
                     ? "text-accent"
                     : "text-text hover:text-accent"

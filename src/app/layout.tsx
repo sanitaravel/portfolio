@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${jetbrainsMono.variable} dark h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-bg text-text font-mono" suppressHydrationWarning>
+      <body className="min-h-full flex flex-col bg-bg text-text font-mono overflow-x-hidden" suppressHydrationWarning>
         <Navbar />
         {children}
       </body>

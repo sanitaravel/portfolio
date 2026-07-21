@@ -7,7 +7,7 @@ interface ProjectsSectionProps {
 
 export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   return (
-    <section id="projects" className="px-6 pt-16 pb-16">
+    <section id="projects" className="min-h-screen px-6 flex flex-col items-center justify-center">
       <h2 className="text-3xl md:text-4xl font-bold text-text text-center mb-10">
         Projects
       </h2>

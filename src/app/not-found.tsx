@@ -11,13 +11,13 @@ export default function NotFound() {
       <div className="mt-8 flex gap-4">
         <Link
           href="/"
-          className="inline-flex items-center gap-1 text-accent hover:underline focus:outline-none focus:ring-2 focus:ring-accent rounded px-3 py-2"
+          className="inline-flex items-center gap-1 min-h-11 min-w-11 text-accent hover:underline focus:outline-none focus:ring-2 focus:ring-accent rounded px-3 py-2"
         >
           &larr; Home
         </Link>
         <Link
           href="/#projects"
-          className="inline-flex items-center gap-1 text-accent hover:underline focus:outline-none focus:ring-2 focus:ring-accent rounded px-3 py-2"
+          className="inline-flex items-center gap-1 min-h-11 min-w-11 text-accent hover:underline focus:outline-none focus:ring-2 focus:ring-accent rounded px-3 py-2"
         >
           View Projects
         </Link>

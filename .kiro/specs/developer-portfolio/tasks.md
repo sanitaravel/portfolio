@@ -130,7 +130,7 @@ Build a personal portfolio website using Next.js App Router with static export, 
 - [x] 6. Checkpoint - Main page sections complete
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 7. Implement project detail pages and 404
+- [x] 7. Implement project detail pages and 404
   - [x] 7.1 Implement project detail page with dynamic routing
     - Create `src/app/projects/[slug]/page.tsx`
     - Use `generateStaticParams()` with `getProjectSlugs()` for static generation
@@ -141,7 +141,7 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - Call `notFound()` if slug doesn't match any project
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 7.2_
 
-  - [ ]* 7.2 Write property test for date formatting
+  - [x] 7.2 Write property test for date formatting
     - **Property 7: Date formatting produces valid human-readable output**
     - Generate valid YYYY-MM-DD strings, verify output contains full month name, numeric day, four-digit year, and round-trips to same calendar date
     - **Validates: Requirements 5.3**
@@ -152,8 +152,8 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - Include link back to projects listing / home page
     - _Requirements: 5.5_
 
-- [ ] 8. Responsive design and final polish
-  - [ ] 8.1 Implement responsive styles and accessibility
+- [x] 8. Responsive design and final polish
+  - [x] 8.1 Implement responsive styles and accessibility
     - Ensure no horizontal scrollbar for viewports 320px–1920px
     - Verify touch targets are 44x44px minimum on mobile
     - Verify WCAG 2.1 AA contrast ratio (4.5:1) for #FEFEFE on #262626
@@ -161,13 +161,13 @@ Build a personal portfolio website using Next.js App Router with static export, 
     - Ensure font fallback chain includes system monospace
     - _Requirements: 3.6, 3.7, 8.1, 8.4_
 
-  - [ ]* 8.2 Write unit tests for ProjectCard and HeroSection
+  - [x] 8.2 Write unit tests for ProjectCard and HeroSection
     - Test ProjectCard links to correct slug URL
     - Test HeroSection renders h1 with developer name
     - Test CTA elements have accent color and correct href
     - _Requirements: 5.1, 6.1, 6.3_
 
-- [ ] 9. Final checkpoint - Full build verification
+- [ ] 9. Final checkpoint - Full build verification 
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

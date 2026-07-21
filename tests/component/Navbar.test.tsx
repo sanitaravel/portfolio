@@ -4,8 +4,13 @@ import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
 import Navbar from "@/components/Navbar";
 
+// Mock next/navigation so usePathname returns "/"
+vi.mock("next/navigation", () => ({
+  usePathname: () => "/",
+}));
+
 // Mock IntersectionObserver as a class since jsdom doesn't support it
-let intersectionCallback: IntersectionObserverCallback;
+let intersectionCallback: IntersectionObserverCallback | null = null;
 const mockObserve = vi.fn();
 const mockDisconnect = vi.fn();
 
@@ -29,14 +34,24 @@ class MockIntersectionObserver implements IntersectionObserver {
 beforeEach(() => {
   mockObserve.mockClear();
   mockDisconnect.mockClear();
+  intersectionCallback = null;
 
   vi.stubGlobal("IntersectionObserver", MockIntersectionObserver);
 
   // Provide stub elements for document.getElementById used by the component
+  const sectionOffsets: Record<string, number> = {
+    home: 0,
+    projects: 800,
+    contact: 1600,
+  };
   vi.spyOn(document, "getElementById").mockImplementation((id: string) => {
-    if (["home", "projects", "contact"].includes(id)) {
+    if (id in sectionOffsets) {
       const el = document.createElement("section");
       el.id = id;
+      Object.defineProperty(el, "offsetTop", {
+        value: sectionOffsets[id],
+        configurable: true,
+      });
       return el;
     }
     return null;
@@ -117,23 +132,41 @@ describe("Navbar", () => {
   });
 
   describe("active section highlighting", () => {
-    it("highlights Home link with text-accent class by default", () => {
-      render(<Navbar />);
+    it("highlights Home link with text-accent class by default", async () => {
+      vi.useFakeTimers();
+
+      await act(async () => {
+        render(<Navbar />);
+      });
+      await act(async () => {
+        vi.advanceTimersByTime(100);
+      });
 
       // Desktop nav Home link
       const homeLinks = screen.getAllByRole("link", { name: "Home" });
       expect(homeLinks[0]).toHaveClass("text-accent");
+
+      vi.useRealTimers();
     });
 
     it("applies text-accent to the active section link when IntersectionObserver fires", async () => {
-      render(<Navbar />);
+      vi.useFakeTimers();
+
+      await act(async () => {
+        render(<Navbar />);
+      });
+      await act(async () => {
+        vi.advanceTimersByTime(100);
+      });
+
+      expect(intersectionCallback).not.toBeNull();
 
       // Simulate "projects" section becoming visible
       const projectsSection = document.createElement("section");
       projectsSection.id = "projects";
 
       await act(async () => {
-        intersectionCallback(
+        intersectionCallback!(
           [
             {
               isIntersecting: true,
@@ -156,6 +189,8 @@ describe("Navbar", () => {
       // Home link should no longer have text-accent
       const homeLinks = screen.getAllByRole("link", { name: "Home" });
       expect(homeLinks[0]).not.toHaveClass("text-accent");
+
+      vi.useRealTimers();
     });
   });
 });

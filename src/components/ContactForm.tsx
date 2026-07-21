@@ -99,7 +99,7 @@ export default function ContactForm() {
           rows={5}
           value={values.message}
           onChange={(e) => setValues({ ...values, message: e.target.value })}
-          className="w-full px-4 py-3 rounded bg-bg border border-text/20 text-text placeholder:text-text/40 focus:outline-none focus:border-accent transition-colors resize-y"
+          className="w-full px-4 py-3 rounded bg-bg border border-text/20 text-text placeholder:text-text/40 focus:outline-none focus:border-accent transition-colors resize-y min-h-11"
           placeholder="Your message..."
         />
         {getFieldError("message") && (

@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getProjectBySlug, getProjectSlugs } from "@/lib/projects";
+import { formatDate } from "@/lib/date-format";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -21,20 +22,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const { frontmatter, contentHtml } = project;
   const { title, date, tags } = frontmatter;
 
-  const formattedDate = new Date(date + "T00:00:00").toLocaleDateString(
-    "en-US",
-    {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }
-  );
+  const formattedDate = formatDate(date);
 
   return (
     <main className="mx-auto max-w-3xl px-6 pt-28 pb-16">
       <Link
         href="/#projects"
-        className="inline-flex items-center gap-1 text-sm text-accent hover:underline focus:outline-none focus:ring-2 focus:ring-accent rounded"
+        className="inline-flex items-center gap-1 min-h-11 min-w-11 text-sm text-accent hover:underline focus:outline-none focus:ring-2 focus:ring-accent rounded"
       >
         &larr; Back to projects
       </Link>

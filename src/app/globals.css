@@ -11,10 +11,45 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-mono);
+  overflow-x: hidden;
+}
+
+/*
+ * WCAG 2.1 AA Contrast Verification:
+ * Text color: #FEFEFE (relative luminance ≈ 0.991)
+ * Background color: #262626 (relative luminance ≈ 0.026)
+ * Contrast ratio = (0.991 + 0.05) / (0.026 + 0.05) = 1.041 / 0.076 ≈ 13.7:1
+ * Required: 4.5:1 for normal text (AA)
+ * Result: PASSES (13.7:1 >> 4.5:1)
+ */
+
+/* Custom scrollbar styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent) var(--color-bg);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #e6720f;
 }
