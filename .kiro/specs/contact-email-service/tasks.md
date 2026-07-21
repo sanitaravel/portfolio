@@ -6,8 +6,8 @@ Replace the mailto-based contact form with a server-side email delivery system u
 
 ## Tasks
 
-- [ ] 1. Set up project infrastructure and dependencies
-  - [ ] 1.1 Update Next.js configuration and install Resend SDK
+- [x] 1. Set up project infrastructure and dependencies
+  - [x] 1.1 Update Next.js configuration and install Resend SDK
     - Remove `output: "export"` from `next.config.ts` to enable API routes (keep `images.unoptimized` if still desired)
     - Install the `resend` package: `npm install resend`
     - Create a `.env.local` file (gitignored) with placeholder values for `RESEND_API_KEY` and `CONTACT_EMAIL_TO`
