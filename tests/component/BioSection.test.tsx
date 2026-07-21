@@ -48,9 +48,9 @@ describe("BioSection", () => {
       const transcriptLink = screen.getByRole("link", { name: /Download Transcript/i });
       const lorLink = screen.getByRole("link", { name: /Download Letter of Recommendation/i });
 
-      expect(resumeLink).toHaveAttribute("href", "/Resume Koshcheev Alexander.pdf");
-      expect(transcriptLink).toHaveAttribute("href", "/Transcript+of+Records_Modules_passedOnly.pdf");
-      expect(lorLink).toHaveAttribute("href", "/LoR-koshcheev.pdf");
+      expect(resumeLink).toHaveAttribute("href", "/resume.pdf");
+      expect(transcriptLink).toHaveAttribute("href", "/transcript_of_records.pdf");
+      expect(lorLink).toHaveAttribute("href", "/letter_of_recommendation.pdf");
     });
 
     it("each document link has the download attribute", () => {

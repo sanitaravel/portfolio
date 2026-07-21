@@ -49,8 +49,8 @@ Replace the mailto-based contact form with a server-side email delivery system u
     - Test success path, failure path, and verify parameter mapping (replyTo, body content)
     - _Requirements: 1.3, 1.4_
 
-- [ ] 4. Implement API route handler
-  - [ ] 4.1 Create `src/app/api/contact/route.ts`
+- [x] 4. Implement API route handler
+  - [x] 4.1 Create `src/app/api/contact/route.ts`
     - Export `POST(request: Request): Promise<Response>` function
     - Parse JSON body with try/catch (return 400 for unparseable JSON)
     - Extract client IP from `x-forwarded-for` or `x-real-ip` headers
@@ -62,7 +62,7 @@ Replace the mailto-based contact form with a server-side email delivery system u
     - Wrap entire handler in try/catch for unexpected errors — return 500 with generic message
     - _Requirements: 1.1, 1.2, 3.1, 3.2, 3.3, 3.4, 3.5, 4.1, 4.2, 4.3, 5.1, 6.1, 6.2, 6.3, 6.4_
 
-  - [ ]* 4.2 Write property tests for API route (Properties 1, 2, 3)
+  - [x] 4.2 Write property tests for API route (Properties 1, 2, 3)
     - Test file: `tests/property/contact-api-route.property.test.ts`
     - **Property 1: Email construction preserves all input fields** — For any valid ContactFormData, verify the email sent contains name, email, message in body and replyTo equals visitor email
     - **Property 2: Route validation is equivalent to validateContactForm** — For any ContactFormData, route returns 400 iff validateContactForm returns non-empty errors
@@ -70,13 +70,13 @@ Replace the mailto-based contact form with a server-side email delivery system u
     - Mock Resend SDK, use `fast-check` with `{ numRuns: 100 }` per property
     - **Validates: Requirements 1.1, 1.3, 1.4, 3.1, 3.2, 3.3, 3.4, 4.1, 4.2**
 
-  - [ ]* 4.3 Write unit tests for API route
+  - [x] 4.3 Write unit tests for API route
     - Test file: `tests/unit/api-contact-route.test.ts`
     - Test HTTP 405 for non-POST (via direct function call or method check), 400 for invalid JSON, 400 for validation failures, 500 for missing env vars, 200 for success path, 500 for Resend failure
     - Use `vi.mock('resend')` and `vi.stubEnv()` for environment variables
     - _Requirements: 3.5, 4.1, 4.2, 4.3, 6.3_
 
-- [ ] 5. Checkpoint
+- [x] 5. Checkpoint
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 6. Update ContactForm component for server-side submission
