@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getProjectBySlug, getProjectSlugs } from "@/lib/projects";
 import { formatDate } from "@/lib/date-format";
+import ImageLightbox from "@/components/ImageLightbox";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -54,10 +55,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </header>
 
         <div
-          className="prose prose-invert mt-8 max-w-none prose-headings:text-text prose-p:text-text/90 prose-li:text-text/90 prose-a:text-accent prose-strong:text-text prose-code:text-accent/90"
+          className="prose prose-invert mt-8 max-w-none prose-headings:text-text prose-p:text-text/90 prose-li:text-text/90 prose-a:text-accent prose-strong:text-text prose-code:text-accent/90 prose-img:cursor-zoom-in prose-img:rounded-lg prose-img:transition-opacity hover:prose-img:opacity-90"
           dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
       </article>
+
+      <ImageLightbox />
     </main>
   );
 }

@@ -3,7 +3,7 @@ export default function BioSection() {
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="px-6 py-20 flex flex-col items-center"
+      className="px-6 py-20 flex flex-col items-center justify-center min-h-screen"
     >
       <div className="max-w-5xl w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -55,7 +55,7 @@ export default function BioSection() {
               <ul className="space-y-3 md:flex md:flex-col md:items-end">
                 <li>
                   <a
-                    href="/Resume Koshcheev Alexander.pdf"
+                    href="/resume.pdf"
                     download
                     aria-label="Download Resume"
                     className="inline-flex items-center gap-2 min-h-11 min-w-11 text-accent hover:text-accent/80 transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-bg rounded"
@@ -66,7 +66,7 @@ export default function BioSection() {
                 </li>
                 <li>
                   <a
-                    href="/Transcript+of+Records_Modules_passedOnly.pdf"
+                    href="/transcript_of_records.pdf"
                     download
                     aria-label="Download Transcript of Records"
                     className="inline-flex items-center gap-2 min-h-11 min-w-11 text-accent hover:text-accent/80 transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-bg rounded"
@@ -77,7 +77,7 @@ export default function BioSection() {
                 </li>
                 <li>
                   <a
-                    href="/LoR-koshcheev.pdf"
+                    href="/letter_of_recommendation.pdf"
                     download
                     aria-label="Download Letter of Recommendation"
                     className="inline-flex items-center gap-2 min-h-11 min-w-11 text-accent hover:text-accent/80 transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-bg rounded"
