@@ -133,8 +133,8 @@ Implement comprehensive SEO improvements for the Next.js portfolio website using
 - [x] 7. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 8. Implement dynamic OG image API route
-  - [ ] 8.1 Create the OG image API route at `src/app/api/og/route.tsx`
+- [x] 8. Implement dynamic OG image API route
+  - [x] 8.1 Create the OG image API route at `src/app/api/og/route.tsx`
     - Import `ImageResponse` from `next/og` and `NextRequest` from `next/server`
     - Export `runtime = "edge"` for edge runtime execution
     - Implement `GET` handler that reads `title`, `description`, and `tags` query parameters
@@ -146,7 +146,7 @@ Implement comprehensive SEO improvements for the Next.js portfolio website using
     - If `tags` is missing, omit the tags section
     - _Requirements: 12.1, 12.2, 12.3, 12.4, 12.5, 12.6, 14.1, 14.2, 14.3, 14.4, 14.5, 14.6, 15.1, 15.2, 15.3, 15.4_
 
-  - [ ]* 8.2 Write unit tests for OG route
+  - [x] 8.2 Write unit tests for OG route
     - Verify ImageResponse is constructed with width=1200 and height=630
     - Verify response Content-Type is `image/png`
     - Verify redirect to `/face.png` when `title` param is missing or empty
