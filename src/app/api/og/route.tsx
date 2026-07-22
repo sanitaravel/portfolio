@@ -3,6 +3,19 @@ import { NextRequest } from "next/server";
 
 export const runtime = "edge";
 
+const JETBRAINS_MONO_REGULAR_URL =
+  "https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono@latest/latin-400-normal.woff";
+const JETBRAINS_MONO_BOLD_URL =
+  "https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono@latest/latin-700-normal.woff";
+
+async function loadFonts() {
+  const [regular, bold] = await Promise.all([
+    fetch(JETBRAINS_MONO_REGULAR_URL).then((res) => res.arrayBuffer()),
+    fetch(JETBRAINS_MONO_BOLD_URL).then((res) => res.arrayBuffer()),
+  ]);
+  return { regular, bold };
+}
+
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
   const title = searchParams.get("title");
@@ -19,6 +32,8 @@ export async function GET(request: NextRequest) {
   const imageUrl = image ? new URL(image, request.url).toString() : "";
 
   try {
+    const fonts = await loadFonts();
+
     return new ImageResponse(
       (
         <div
@@ -29,8 +44,9 @@ export async function GET(request: NextRequest) {
             padding: "60px",
             width: "100%",
             height: "100%",
-            backgroundColor: "#0f0f0f",
-            color: "#f5f5f5",
+            backgroundColor: "#262626",
+            color: "#FEFEFE",
+            fontFamily: "'JetBrains Mono', monospace",
           }}
         >
           {/* Left: Text content */}
@@ -50,6 +66,7 @@ export async function GET(request: NextRequest) {
                 fontWeight: 700,
                 lineHeight: 1.2,
                 marginBottom: 20,
+                color: "#FEFEFE",
               }}
             >
               {title}
@@ -60,7 +77,7 @@ export async function GET(request: NextRequest) {
               <div
                 style={{
                   fontSize: 24,
-                  color: "#a0a0a0",
+                  color: "rgba(254, 254, 254, 0.7)",
                   lineHeight: 1.4,
                   marginBottom: 24,
                   overflow: "hidden",
@@ -82,8 +99,8 @@ export async function GET(request: NextRequest) {
                     key={tag}
                     style={{
                       fontSize: 16,
-                      backgroundColor: "#2a2a2a",
-                      color: "#60a5fa",
+                      backgroundColor: "rgba(255, 128, 20, 0.15)",
+                      color: "#FF8014",
                       padding: "6px 14px",
                       borderRadius: "6px",
                     }}
@@ -107,6 +124,7 @@ export async function GET(request: NextRequest) {
                 borderRadius: "50%",
                 overflow: "hidden",
                 flexShrink: 0,
+                border: "3px solid rgba(255, 128, 20, 0.5)",
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -128,6 +146,20 @@ export async function GET(request: NextRequest) {
       {
         width: 1200,
         height: 630,
+        fonts: [
+          {
+            name: "JetBrains Mono",
+            data: fonts.regular,
+            weight: 400,
+            style: "normal",
+          },
+          {
+            name: "JetBrains Mono",
+            data: fonts.bold,
+            weight: 700,
+            style: "normal",
+          },
+        ],
       }
     );
   } catch {
