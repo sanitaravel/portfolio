@@ -72,25 +72,25 @@ Implement comprehensive SEO improvements for the Next.js portfolio website using
 - [x] 4. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 5. Implement JSON-LD structured data
-  - [ ] 5.1 Create the `JsonLd` component at `src/components/JsonLd.tsx`
+- [x] 5. Implement JSON-LD structured data
+  - [x] 5.1 Create the `JsonLd` component at `src/components/JsonLd.tsx`
     - Implement a reusable component that renders a `<script type="application/ld+json">` tag
     - Accept a `data` prop of type `Record<string, unknown>` and serialize with `JSON.stringify`
     - _Requirements: 7.1, 7.5, 8.1, 8.8_
 
-  - [ ] 5.2 Add Person JSON-LD to main page `src/app/page.tsx`
+  - [x] 5.2 Add Person JSON-LD to main page `src/app/page.tsx`
     - Import `JsonLd` component and `seoConfig`
     - Render a Person schema with @context, @type, name, url, jobTitle, and sameAs array
     - Ensure no null/undefined values in the schema object
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6_
 
-  - [ ] 5.3 Add CreativeWork JSON-LD to project page `src/app/projects/[slug]/page.tsx`
+  - [x] 5.3 Add CreativeWork JSON-LD to project page `src/app/projects/[slug]/page.tsx`
     - Import `JsonLd` component and `seoConfig`
     - Render a CreativeWork schema with @context, @type, name, description, dateCreated, keywords, and author
     - Only render when project exists (not on 404)
     - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8_
 
-  - [ ]* 5.4 Write property test for CreativeWork schema field mapping
+  - [x] 5.4 Write property test for CreativeWork schema field mapping
     - **Property 3: CreativeWork schema correctly maps frontmatter**
     - Generate random valid frontmatter, build the CreativeWork schema
     - Assert @context equals "https://schema.org", @type equals "CreativeWork"
@@ -98,7 +98,7 @@ Implement comprehensive SEO improvements for the Next.js portfolio website using
     - Assert keywords is array equal to tags, author.@type equals "Person", author.name equals owner name
     - **Validates: Requirements 8.1, 8.2, 8.3, 8.4, 8.5, 8.6**
 
-  - [ ]* 5.5 Write property test for JSON-LD round-trip safety
+  - [x] 5.5 Write property test for JSON-LD round-trip safety
     - **Property 4: JSON-LD output is always valid parseable JSON**
     - Generate frontmatter with adversarial strings (unicode, quotes, HTML entities, newlines, backslashes)
     - Serialize with JSON.stringify and parse with JSON.parse

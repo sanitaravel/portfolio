@@ -3,6 +3,7 @@ import HeroSection from "@/components/HeroSection";
 import BioSection from "@/components/BioSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import ContactSection from "@/components/ContactSection";
+import { JsonLd } from "@/components/JsonLd";
 import { getAllProjects } from "@/lib/projects";
 import { seoConfig } from "@/lib/seo-config";
 
@@ -40,11 +41,21 @@ export const metadata: Metadata = {
   },
 };
 
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: seoConfig.ownerName,
+  url: seoConfig.siteUrl,
+  jobTitle: seoConfig.ownerJobTitle,
+  sameAs: seoConfig.socialLinks,
+};
+
 export default function Home() {
   const projects = getAllProjects();
 
   return (
     <main>
+      <JsonLd data={personJsonLd} />
       <HeroSection />
       <BioSection />
       <ProjectsSection projects={projects} />

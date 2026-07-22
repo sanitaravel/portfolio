@@ -5,6 +5,7 @@ import { getProjectBySlug, getProjectSlugs } from "@/lib/projects";
 import { seoConfig } from "@/lib/seo-config";
 import { formatDate } from "@/lib/date-format";
 import ImageLightbox from "@/components/ImageLightbox";
+import { JsonLd } from "@/components/JsonLd";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -71,12 +72,27 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   }
 
   const { frontmatter, contentHtml } = project;
-  const { title, date, tags } = frontmatter;
+  const { title, description, date, tags } = frontmatter;
 
   const formattedDate = formatDate(date);
 
+  const creativeWorkSchema = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: title,
+    description,
+    dateCreated: date,
+    keywords: tags,
+    author: {
+      "@type": "Person",
+      name: seoConfig.ownerName,
+    },
+  };
+
   return (
-    <main className="mx-auto max-w-3xl px-6 pt-28 pb-16">
+    <>
+      <JsonLd data={creativeWorkSchema} />
+      <main className="mx-auto max-w-3xl px-6 pt-28 pb-16">
       <Link
         href="/#projects"
         className="inline-flex items-center gap-1 min-h-11 min-w-11 text-sm text-accent hover:underline focus:outline-none focus:ring-2 focus:ring-accent rounded"
@@ -112,5 +128,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
       <ImageLightbox />
     </main>
+    </>
   );
 }
