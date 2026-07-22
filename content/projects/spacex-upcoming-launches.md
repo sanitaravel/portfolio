@@ -5,7 +5,7 @@ tags: ["React", "TypeScript", "Vite", "Tailwind CSS"]
 date: "2026-07-16"
 ---
 
-🔗 <a href="https://github.com/sanitaravel/SpaceX-Upcoming-Launches" target="_blank" rel="noopener noreferrer">View on GitHub</a> · <a href="https://space-x-upcoming-launches.vercel.app/" target="_blank" rel="noopener noreferrer">Live Demo</a>
+🔗 <a href="https://github.com/sanitaravel/SpaceX-Upcoming-Launches" target="_blank" rel="noopener noreferrer">View on GitHub</a> · <a href="https://space-x-upcoming-launches.alexanderkoshcheev.me/" target="_blank" rel="noopener noreferrer">Live Demo</a>
 
 ## Overview
 
