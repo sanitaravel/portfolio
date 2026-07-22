@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -34,6 +36,8 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-bg text-text font-mono overflow-x-hidden" suppressHydrationWarning>
         <Navbar />
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
