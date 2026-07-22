@@ -156,8 +156,8 @@ Implement comprehensive SEO improvements for the Next.js portfolio website using
     - Verify title font size is ≥ 40px and description font size is ≥ 20px in rendered JSX
     - _Requirements: 12.5, 12.6, 14.1, 14.2, 15.1, 15.2, 15.3, 15.4_
 
-- [ ] 9. Update project page metadata to use dynamic OG image URL
-  - [ ] 9.1 Update `generateMetadata` in `src/app/projects/[slug]/page.tsx` to build dynamic OG image URL
+- [x] 9. Update project page metadata to use dynamic OG image URL
+  - [x] 9.1 Update `generateMetadata` in `src/app/projects/[slug]/page.tsx` to build dynamic OG image URL
     - When frontmatter has no `image` field, construct URL as `${seoConfig.siteUrl}/api/og?title=...&description=...&tags=...` with URL-encoded parameters
     - When frontmatter has an `image` field, use that value directly
     - Set both `openGraph.images[0].url` and `twitter.images[0].url` to the same resolved URL
@@ -165,7 +165,7 @@ Implement comprehensive SEO improvements for the Next.js portfolio website using
     - Only include `tags` param when frontmatter tags array is non-empty
     - _Requirements: 13.1, 13.2, 13.3, 13.4, 16.1, 16.2_
 
-  - [ ]* 9.2 Write property test for dynamic OG image URL construction
+  - [x] 9.2 Write property test for dynamic OG image URL construction
     - **Property 6: Dynamic OG image URL construction for project pages**
     - Generate random valid frontmatter without `image` field; verify metadata image URL starts with `seoConfig.siteUrl`, contains path `/api/og`, includes URL-encoded `title` and `description` params matching frontmatter, includes `tags` param (comma-joined) when tags non-empty, omits `tags` param when tags empty
     - Generate random valid frontmatter with `image` field; verify metadata uses that explicit image value for both OG and Twitter

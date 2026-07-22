@@ -10,6 +10,12 @@ import { seoConfig } from "@/lib/seo-config";
 const title = "Alexander Koshcheev — Full-Stack Developer Portfolio";
 const description = "Explore projects and skills of Alexander Koshcheev, a junior full-stack developer specializing in Next.js, React, Flutter, and TypeScript.";
 
+const mainPageOgImage = `${seoConfig.siteUrl}/api/og?${new URLSearchParams({
+  title,
+  description,
+  image: seoConfig.defaultOgImage,
+}).toString()}`;
+
 export const metadata: Metadata = {
   title: { absolute: title },
   description,
@@ -21,7 +27,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: seoConfig.siteName,
     images: [{
-      url: seoConfig.defaultOgImage,
+      url: mainPageOgImage,
       width: seoConfig.ogImageDimensions.width,
       height: seoConfig.ogImageDimensions.height,
       alt: seoConfig.ownerName,
@@ -33,7 +39,7 @@ export const metadata: Metadata = {
     description,
     creator: seoConfig.ownerTwitter,
     images: [{
-      url: seoConfig.defaultOgImage,
+      url: mainPageOgImage,
       width: seoConfig.ogImageDimensions.width,
       height: seoConfig.ogImageDimensions.height,
       alt: seoConfig.ownerName,

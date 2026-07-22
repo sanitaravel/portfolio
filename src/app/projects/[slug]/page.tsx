@@ -29,7 +29,17 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
 
   const { title, description, tags, image } = project.frontmatter;
 
-  const ogImageUrl = image || seoConfig.defaultOgImage;
+  // Build the OG image URL: use explicit image if provided, otherwise dynamic route
+  let ogImageUrl: string;
+  if (image) {
+    ogImageUrl = image;
+  } else {
+    const ogParams = new URLSearchParams({ title, description });
+    if (tags.length > 0) {
+      ogParams.set("tags", tags.join(","));
+    }
+    ogImageUrl = `${seoConfig.siteUrl}/api/og?${ogParams.toString()}`;
+  }
 
   return {
     title,
