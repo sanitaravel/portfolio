@@ -17,18 +17,18 @@ Implement comprehensive SEO improvements for the Next.js portfolio website using
     - _Requirements: 3.5, 3.6_
 
 - [ ] 2. Implement root layout and main page metadata
-  - [ ] 2.1 Update root layout metadata in `src/app/layout.tsx`
+  - [x] 2.1 Update root layout metadata in `src/app/layout.tsx`
     - Import `seoConfig` from `@/lib/seo-config`
     - Replace the existing `metadata` export with the full Metadata object including: metadataBase, title (with default and template), description, authors, keywords, robots, openGraph (type, siteName, images with width/height/alt), and twitter (card, creator)
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 6.1, 6.2, 6.4, 11.1, 11.2, 11.5_
 
-  - [ ] 2.2 Add metadata export to main page `src/app/page.tsx`
+  - [x] 2.2 Add metadata export to main page `src/app/page.tsx`
     - Import `Metadata` type and `seoConfig`
     - Export a static `metadata` object with absolute title, description, keywords, openGraph (title, description, url, type, siteName, images with dimensions and alt), and twitter (card, title, description, creator, images with dimensions and alt)
     - Ensure OG title ≤ 70 characters and description between 50–200 characters
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 5.1, 6.1, 6.2, 6.4, 11.6_
 
-  - [ ]* 2.3 Write unit tests for root layout and main page metadata
+  - [x] 2.3 Write unit tests for root layout and main page metadata
     - Verify root layout metadata has all required fields (metadataBase, openGraph, twitter, authors, robots, keywords)
     - Verify main page metadata title ≤ 70 chars, description 50–200 chars
     - Verify OG/Twitter title and description are identical on main page

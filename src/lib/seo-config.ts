@@ -1,5 +1,5 @@
 export const seoConfig = {
-  siteUrl: "https://portfolio.alexanderkoshcheev.me/",  // Site_URL (no trailing slash)
+  siteUrl: "https://portfolio.alexanderkoshcheev.me",  // Site_URL (no trailing slash)
   siteName: "Alexander Koshcheev | Developer Portfolio",
   ownerName: "Alexander Koshcheev",
   ownerTwitter: "@sanitaravel",

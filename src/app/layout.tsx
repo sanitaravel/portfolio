@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { seoConfig } from "@/lib/seo-config";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -22,8 +23,29 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Developer Portfolio",
-  description: "Personal portfolio of a junior full-stack developer",
+  metadataBase: new URL(seoConfig.siteUrl),
+  title: {
+    default: seoConfig.defaultTitle,
+    template: `%s | ${seoConfig.ownerName}`,
+  },
+  description: seoConfig.defaultDescription,
+  authors: [{ name: seoConfig.ownerName }],
+  keywords: [...seoConfig.layoutKeywords],
+  robots: { index: true, follow: true },
+  openGraph: {
+    type: "website",
+    siteName: seoConfig.siteName,
+    images: [{
+      url: seoConfig.defaultOgImage,
+      width: seoConfig.ogImageDimensions.width,
+      height: seoConfig.ogImageDimensions.height,
+      alt: seoConfig.ownerName,
+    }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    creator: seoConfig.ownerTwitter,
+  },
 };
 
 export default function RootLayout({
