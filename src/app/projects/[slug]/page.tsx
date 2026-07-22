@@ -1,6 +1,8 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getProjectBySlug, getProjectSlugs } from "@/lib/projects";
+import { seoConfig } from "@/lib/seo-config";
 import { formatDate } from "@/lib/date-format";
 import ImageLightbox from "@/components/ImageLightbox";
 
@@ -10,6 +12,54 @@ interface ProjectPageProps {
 
 export function generateStaticParams() {
   return getProjectSlugs().map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const project = getProjectBySlug(slug);
+
+  if (!project) {
+    return {
+      title: "Not Found",
+      openGraph: { images: [] },
+      twitter: { images: [] },
+    };
+  }
+
+  const { title, description, tags, image } = project.frontmatter;
+
+  const ogImageUrl = image || seoConfig.defaultOgImage;
+
+  return {
+    title,
+    description,
+    keywords: tags.length > 0 ? tags.join(", ") : undefined,
+    openGraph: {
+      title,
+      description,
+      url: `${seoConfig.siteUrl}/projects/${slug}`,
+      type: "article",
+      siteName: seoConfig.siteName,
+      images: [{
+        url: ogImageUrl,
+        width: seoConfig.ogImageDimensions.width,
+        height: seoConfig.ogImageDimensions.height,
+        alt: title,
+      }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      creator: seoConfig.ownerTwitter,
+      images: [{
+        url: ogImageUrl,
+        width: seoConfig.ogImageDimensions.width,
+        height: seoConfig.ogImageDimensions.height,
+        alt: title,
+      }],
+    },
+  };
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {

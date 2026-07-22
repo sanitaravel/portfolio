@@ -35,8 +35,8 @@ Implement comprehensive SEO improvements for the Next.js portfolio website using
     - Verify image entries include width=1200, height=630, and non-empty alt
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 2.1, 2.2, 2.3, 2.4, 2.5, 6.1, 6.2, 6.4_
 
-- [ ] 3. Implement project page dynamic metadata
-  - [ ] 3.1 Add `generateMetadata` function to `src/app/projects/[slug]/page.tsx`
+- [x] 3. Implement project page dynamic metadata
+  - [x] 3.1 Add `generateMetadata` function to `src/app/projects/[slug]/page.tsx`
     - Import `Metadata` type and `seoConfig`
     - Implement `generateMetadata` that extracts title, description, tags, and image from frontmatter
     - Set openGraph and twitter fields (title, description, url, type, siteName, images with dimensions and alt, card, creator)
@@ -45,7 +45,7 @@ Implement comprehensive SEO improvements for the Next.js portfolio website using
     - Use project-specific image if available, fall back to defaultOgImage
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 4.1, 4.2, 4.3, 5.2, 5.3, 6.1, 6.2, 6.3, 11.3, 11.4_
 
-  - [ ]* 3.2 Write property test for project metadata field mapping
+  - [x] 3.2 Write property test for project metadata field mapping
     - **Property 1: Project metadata faithfully maps frontmatter fields**
     - Generate random valid ProjectFrontmatter objects with random titles, descriptions, dates, tags, and slugs
     - Assert openGraph.title equals frontmatter title, openGraph.description equals frontmatter description
@@ -55,7 +55,7 @@ Implement comprehensive SEO improvements for the Next.js portfolio website using
     - Assert keywords equals tags.join(", ") when non-empty, undefined when empty
     - **Validates: Requirements 3.1, 3.2, 3.3, 3.4, 5.2, 11.3, 11.4**
 
-  - [ ]* 3.3 Write property test for project metadata image handling
+  - [x] 3.3 Write property test for project metadata image handling
     - **Property 2: Project metadata image handling with correct dimensions**
     - Generate random frontmatter with and without `image` field
     - Assert image URL is default when no image field, matches field value when present
@@ -63,13 +63,13 @@ Implement comprehensive SEO improvements for the Next.js portfolio website using
     - Assert every image entry has non-empty alt equal to frontmatter title
     - **Validates: Requirements 3.5, 3.6, 6.1, 6.2, 6.3**
 
-  - [ ]* 3.4 Write unit tests for non-existent project metadata handling
+  - [x] 3.4 Write unit tests for non-existent project metadata handling
     - Verify generateMetadata returns title containing "Not Found" for missing slugs
     - Verify openGraph.images and twitter.images are empty arrays
     - Verify description and url fields are omitted
     - _Requirements: 4.1, 4.2, 4.3, 5.3_
 
-- [ ] 4. Checkpoint - Ensure all tests pass
+- [x] 4. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 5. Implement JSON-LD structured data
