@@ -167,7 +167,7 @@ export const metadata: Metadata = {
 
 **File:** `src/app/projects/[slug]/page.tsx`
 
-Adds a `generateMetadata` async function:
+Adds a `generateMetadata` async function that builds a dynamic OG image URL for projects without an explicit image:
 
 ```typescript
 import type { Metadata } from "next";
@@ -187,7 +187,18 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   }
 
   const { title, description, tags, image } = project.frontmatter;
-  const ogImage = image || seoConfig.defaultOgImage;
+
+  // Build the OG image URL: use explicit image if provided, otherwise dynamic route
+  let ogImageUrl: string;
+  if (image) {
+    ogImageUrl = image;
+  } else {
+    const ogParams = new URLSearchParams({ title, description });
+    if (tags.length > 0) {
+      ogParams.set("tags", tags.join(","));
+    }
+    ogImageUrl = `${seoConfig.siteUrl}/api/og?${ogParams.toString()}`;
+  }
 
   return {
     title,
@@ -200,7 +211,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
       type: "article",
       siteName: seoConfig.siteName,
       images: [{
-        url: ogImage,
+        url: ogImageUrl,
         width: seoConfig.ogImageDimensions.width,
         height: seoConfig.ogImageDimensions.height,
         alt: title,
@@ -212,7 +223,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
       description,
       creator: seoConfig.ownerTwitter,
       images: [{
-        url: ogImage,
+        url: ogImageUrl,
         width: seoConfig.ogImageDimensions.width,
         height: seoConfig.ogImageDimensions.height,
         alt: title,
@@ -378,12 +389,12 @@ interface CreativeWorkSchema {
 ### Property 2: Project metadata image handling with correct dimensions
 
 *For any* valid project frontmatter, the generated metadata SHALL include image entries in both `openGraph.images` and `twitter.images` where:
-- If frontmatter has no `image` field, the image URL is the default OG image (`/face.png`)
+- If frontmatter has no `image` field, the image URL is a dynamic OG image URL pointing to `/api/og` with encoded query parameters (see Property 6)
 - If frontmatter has an `image` field, the image URL matches that field's value
 - Every image entry has `width` equal to 1200 and `height` equal to 630
 - Every image entry has a non-empty `alt` attribute equal to the frontmatter `title`
 
-**Validates: Requirements 3.5, 3.6, 6.1, 6.2, 6.3**
+**Validates: Requirements 3.5, 3.6, 6.1, 6.2, 6.3, 13.1, 13.3**
 
 ### Property 3: CreativeWork schema correctly maps frontmatter
 
@@ -414,7 +425,193 @@ interface CreativeWorkSchema {
 
 **Validates: Requirements 10.3, 10.4, 10.6, 10.7**
 
+### Property 6: Dynamic OG image URL construction for project pages
+
+*For any* valid project frontmatter without an explicit `image` field, the generated metadata SHALL produce identical OG and Twitter image URLs that:
+- Are absolute URLs beginning with the configured site URL
+- Contain the path `/api/og`
+- Include a `title` query parameter equal to the frontmatter title (URL-encoded)
+- Include a `description` query parameter equal to the frontmatter description (URL-encoded)
+- Include a `tags` query parameter equal to the frontmatter tags joined by commas (URL-encoded) when tags are non-empty
+- Do NOT include a `tags` parameter when frontmatter tags array is empty
+
+And *for any* valid project frontmatter WITH an explicit `image` field, the generated metadata SHALL use that image value directly for both OG and Twitter image URLs, without referencing the `/api/og` route.
+
+**Validates: Requirements 13.1, 13.2, 13.3, 13.4**
+
+## Components and Interfaces (Continued — Dynamic OG Image)
+
+### 8. Dynamic OG Image API Route
+
+**File:** `src/app/api/og/route.tsx`
+
+Generates Open Graph images dynamically using `ImageResponse` from `next/og` (built into Next.js). The route accepts query parameters and renders a branded image using Satori's flexbox-based layout engine.
+
+```typescript
+import { ImageResponse } from "next/og";
+import { NextRequest } from "next/server";
+
+export const runtime = "edge";
+
+export async function GET(request: NextRequest) {
+  const { searchParams } = request.nextUrl;
+  const title = searchParams.get("title");
+  const description = searchParams.get("description") || "";
+  const tags = searchParams.get("tags")?.split(",").filter(Boolean) || [];
+
+  // Fallback: redirect to static image when title is missing
+  if (!title) {
+    return Response.redirect(new URL("/face.png", request.url));
+  }
+
+  try {
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: "60px",
+            width: "100%",
+            height: "100%",
+            backgroundColor: "#0f0f0f",
+            color: "#f5f5f5",
+          }}
+        >
+          {/* Title */}
+          <div
+            style={{
+              fontSize: 48,
+              fontWeight: 700,
+              lineHeight: 1.2,
+              marginBottom: 20,
+            }}
+          >
+            {title}
+          </div>
+
+          {/* Description (conditional) */}
+          {description && (
+            <div
+              style={{
+                fontSize: 24,
+                color: "#a0a0a0",
+                lineHeight: 1.4,
+                marginBottom: 24,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                display: "-webkit-box",
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: "vertical",
+              }}
+            >
+              {description}
+            </div>
+          )}
+
+          {/* Tags (conditional) */}
+          {tags.length > 0 && (
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+              {tags.map((tag) => (
+                <div
+                  key={tag}
+                  style={{
+                    fontSize: 16,
+                    backgroundColor: "#2a2a2a",
+                    color: "#60a5fa",
+                    padding: "6px 14px",
+                    borderRadius: "6px",
+                  }}
+                >
+                  {tag.trim()}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ),
+      {
+        width: 1200,
+        height: 630,
+      }
+    );
+  } catch {
+    // Fallback on any rendering error
+    return Response.redirect(new URL("/face.png", request.url));
+  }
+}
+```
+
+**Key design decisions:**
+- **Edge runtime** — `ImageResponse` from `next/og` runs on the edge for fast response times.
+- **Satori layout** — Uses a subset of CSS (flexbox only, no Grid) with inline styles. Satori doesn't support Tailwind classes.
+- **Dark theme** — Background `#0f0f0f` matches the portfolio's dark theme. Text is `#f5f5f5` for contrast. Tags use accent blue `#60a5fa`.
+- **Dimensions** — Fixed 1200×630 matching standard OG image dimensions.
+- **Fallback** — On missing title or any render error, redirects to `/face.png` rather than returning an error status.
+- **Title font 48px** (≥40px requirement), **description 24px** (≥20px requirement).
+
+### 9. Project Page Dynamic OG Image URL (Updated generateMetadata)
+
+**File:** `src/app/projects/[slug]/page.tsx`
+
+> Note: This section documents the same `generateMetadata` function shown in Section 4 above. The key change from the original design is that projects without an explicit `image` field now use the dynamic `/api/og` route instead of falling back to the static `/face.png`.
+
+**Key changes from previous design:**
+- When frontmatter has no `image` field, the OG image URL is now `${siteUrl}/api/og?title=...&description=...&tags=...` instead of the static `/face.png`.
+- When frontmatter includes an `image` field, that value is used directly (preserving Requirement 13.3).
+- The URL is always absolute (using `seoConfig.siteUrl` as base).
+- Both `openGraph.images` and `twitter.images` use the same URL.
+
+### 10. Dynamic OG Image Visual Layout Template
+
+The generated image follows this visual structure:
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│  (60px padding all around)                                    │
+│                                                               │
+│  ┌─────────────────────────────────────────────────────────┐ │
+│  │  PROJECT TITLE                                          │ │
+│  │  (48px, bold, white #f5f5f5, max 2 lines)              │ │
+│  └─────────────────────────────────────────────────────────┘ │
+│                                                               │
+│  ┌─────────────────────────────────────────────────────────┐ │
+│  │  Description text here, truncated with ellipsis if too  │ │
+│  │  long. Maximum 3 lines displayed...                     │ │
+│  │  (24px, gray #a0a0a0, max 3 lines with overflow hidden)│ │
+│  └─────────────────────────────────────────────────────────┘ │
+│                                                               │
+│  ┌────────┐ ┌────────┐ ┌────────┐                           │
+│  │  Tag1  │ │  Tag2  │ │  Tag3  │  ...                      │
+│  └────────┘ └────────┘ └────────┘                           │
+│  (16px, blue #60a5fa on dark #2a2a2a, rounded badges)        │
+│                                                               │
+│  Background: #0f0f0f (dark, matches portfolio theme)          │
+└──────────────────────────────────────────────────────────────┘
+                        1200 × 630 px
+```
+
+**Style specifications:**
+| Element     | Font Size | Color     | Weight | Additional                     |
+|-------------|-----------|-----------|--------|--------------------------------|
+| Title       | 48px      | #f5f5f5   | 700    | Line height 1.2, max ~2 lines |
+| Description | 24px      | #a0a0a0   | 400    | Line height 1.4, max 3 lines, ellipsis overflow |
+| Tags        | 16px      | #60a5fa   | 400    | Background #2a2a2a, padding 6px 14px, border-radius 6px |
+| Background  | —         | #0f0f0f   | —      | Full 1200×630 area             |
+
+**Conditional rendering:**
+- Description section is omitted entirely when `description` param is empty/missing.
+- Tags section is omitted entirely when `tags` param is empty/missing.
+- Title is always required (fallback triggers without it).
+
 ## Error Handling
+
+### Dynamic OG Image Route Errors
+When the `/api/og` route encounters issues:
+- **Missing title parameter:** Redirects (302) to `/face.png`. This ensures that even malformed URLs produce a valid image rather than a broken preview.
+- **Rendering error:** If `ImageResponse` throws (e.g., due to invalid JSX or Satori failure), the catch block redirects to `/face.png`. This guarantees social platforms always receive a valid image response.
+- **Missing description/tags:** These are optional — the route renders without those sections. No error is triggered.
 
 ### Non-Existent Project Slug
 When `generateMetadata` is called with a slug that doesn't match any project:
@@ -453,6 +650,13 @@ Focus on static configuration correctness and specific edge cases:
 4. **Person schema** — Verify all required fields present with correct values, no null/undefined values, sameAs URLs valid
 5. **Robots.txt** — Verify robots() function output contains correct directives
 6. **Sitemap edge cases** — Verify behavior with zero projects
+7. **OG route dimensions** — Verify ImageResponse is constructed with width=1200, height=630
+8. **OG route content type** — Verify response Content-Type is `image/png`
+9. **OG route fallback (missing title)** — Verify redirect to `/face.png` when title param is absent or empty
+10. **OG route fallback (error)** — Mock a rendering error, verify redirect to `/face.png`
+11. **OG route optional params** — Verify image renders without description/tags when those params are missing
+12. **OG route visual config** — Verify title font ≥ 40px, description font ≥ 20px, dark background, light text
+13. **Main page preserves static image** — Verify main page metadata uses `/face.png`, not the dynamic OG route
 
 ### Property-Based Tests (fast-check)
 
@@ -463,6 +667,7 @@ Each property test runs a minimum of 100 iterations with randomly generated fron
 3. **Property 3 test** — Generate random frontmatter, build CreativeWork schema, verify all field mappings
 4. **Property 4 test** — Generate frontmatter with adversarial strings (unicode, quotes, HTML entities, newlines), verify JSON round-trip
 5. **Property 5 test** — Generate random sets of projects (varying count 0-20, random slugs and dates), call sitemap logic, verify completeness
+6. **Property 6 test** — Generate random frontmatter with and without `image` field, call the updated metadata generation logic, verify dynamic OG URL construction (includes correct base URL, path, and encoded query params) or explicit image override
 
 **Property test library:** `fast-check` (already installed in devDependencies)
 
@@ -472,4 +677,4 @@ Each property test runs a minimum of 100 iterations with randomly generated fron
 
 ### Integration Tests
 
-Not needed for this feature — all functionality is testable via unit and property tests against the exported functions. The Next.js framework handles the actual HTTP serving of robots.txt and sitemap.xml.
+Not needed for this feature — all functionality is testable via unit and property tests against the exported functions. The Next.js framework handles the actual HTTP serving of robots.txt, sitemap.xml, and the OG image route. The `ImageResponse` rendering itself is tested via unit tests that verify the response object properties (status, headers, dimensions).

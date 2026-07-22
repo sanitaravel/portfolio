@@ -20,6 +20,8 @@ This feature implements comprehensive SEO improvements for the portfolio website
 - **Robots_File**: A `robots.txt` file served at the site root that instructs search engine crawlers which paths to crawl or avoid
 - **Sitemap**: An XML file following the Sitemaps protocol that lists all crawlable URLs with optional lastmod dates
 - **Meta_Tags**: Standard HTML `<meta>` tags in the page `<head>` providing information such as author, keywords, and robots directives
+- **OG_Image_API_Route**: The Next.js API route at `/api/og` that uses the `next/og` package (ImageResponse with Satori) to dynamically generate Open Graph preview images
+- **Dynamic_OG_Image**: An Open Graph image generated on-the-fly by the OG_Image_API_Route based on query parameters such as title, description, and tags
 
 ## Requirements
 
@@ -156,3 +158,61 @@ This feature implements comprehensive SEO improvements for the portfolio website
 4. IF a Project_Page is rendered and the project's Frontmatter `tags` array is empty, THEN THE Metadata_Export SHALL omit the `keywords` field or set it to an empty string
 5. THE Metadata_Export in the root layout SHALL include a default `keywords` field containing at least 3 comma-separated terms related to the portfolio's professional domain
 6. THE Metadata_Export for the Main_Page SHALL include a `keywords` field that replaces the root layout default, containing at least 3 comma-separated terms distinct from the root layout default keywords
+
+### Requirement 12: Dynamic OG Image API Route
+
+**User Story:** As a site owner, I want an API route that dynamically generates Open Graph images for project pages, so that each shared project link displays a unique, branded preview image showing the project's title, description, and tags.
+
+#### Acceptance Criteria
+
+1. THE system SHALL expose an API route at `/api/og` that generates Open Graph images dynamically using the `next/og` ImageResponse API
+2. WHEN the API route receives a request with a `title` query parameter, THE API route SHALL render an image containing the provided title text
+3. WHEN the API route receives a request with a `description` query parameter, THE API route SHALL render an image containing the provided description text
+4. WHEN the API route receives a request with a `tags` query parameter (comma-separated string), THE API route SHALL render an image displaying the individual tags as visual elements
+5. THE API route SHALL return an image with dimensions of exactly 1200 pixels wide and 630 pixels tall
+6. THE API route SHALL return a response with Content-Type `image/png`
+7. THE API route SHALL return a valid image response within 5 seconds for any valid set of query parameters
+
+### Requirement 13: Project Pages Use Dynamic OG Image URL
+
+**User Story:** As a site owner, I want project pages to reference the dynamic OG image route instead of a static fallback, so that social sharing previews are unique and informative for each project.
+
+#### Acceptance Criteria
+
+1. WHEN a Project_Page is rendered, THE Metadata_Export SHALL set the Open Graph image URL to the dynamic OG image API route with the project's title, description, and tags encoded as query parameters
+2. WHEN a Project_Page is rendered, THE Metadata_Export SHALL set the Twitter Card image URL to the same dynamic OG image URL used for Open Graph
+3. IF a Project_Page's Frontmatter includes an `image` field, THEN THE Metadata_Export SHALL use the Frontmatter `image` value instead of the dynamic OG image URL
+4. THE dynamic OG image URL SHALL be constructed as an absolute URL using the Site_URL as the base
+
+### Requirement 14: Dynamic OG Image Visual Content
+
+**User Story:** As a site owner, I want the generated OG image to clearly display the project title, description, and tags in a readable layout, so that viewers can quickly understand the project from the social preview alone.
+
+#### Acceptance Criteria
+
+1. THE generated image SHALL display the project title in a prominent, readable font size no smaller than 40 pixels
+2. THE generated image SHALL display the project description below the title in a font size no smaller than 20 pixels
+3. WHEN tags are provided, THE generated image SHALL display each tag as a distinct visual element (badge or label) below the description
+4. THE generated image SHALL truncate the description text with an ellipsis if the text exceeds the available rendering area
+5. THE generated image SHALL use a dark background color consistent with the portfolio website's theme
+6. THE generated image SHALL use light-colored text ensuring sufficient contrast against the dark background for readability
+
+### Requirement 15: Dynamic OG Image Fallback Behavior
+
+**User Story:** As a site owner, I want graceful fallback behavior when OG image generation fails or parameters are missing, so that social previews never appear broken.
+
+#### Acceptance Criteria
+
+1. IF the `title` query parameter is missing or empty, THEN THE API route SHALL return the static Default_OG_Image (`/face.png`) as a redirect or serve it directly
+2. IF an error occurs during image generation, THEN THE API route SHALL return the static Default_OG_Image as a fallback rather than an error response
+3. IF the `description` query parameter is missing or empty, THEN THE API route SHALL generate the image without the description section
+4. IF the `tags` query parameter is missing or empty, THEN THE API route SHALL generate the image without the tags section
+
+### Requirement 16: Main Page Static OG Image Preservation
+
+**User Story:** As a site owner, I want the main page to continue using the static face.png image for its social preview, so that the homepage maintains a personal, recognizable social card.
+
+#### Acceptance Criteria
+
+1. THE Metadata_Export for the Main_Page SHALL continue to use the Default_OG_Image (`/face.png`) as its Open Graph and Twitter Card image
+2. THE Main_Page SHALL NOT use the dynamic OG image API route for its social preview image

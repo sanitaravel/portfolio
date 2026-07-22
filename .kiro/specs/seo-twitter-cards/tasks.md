@@ -7,12 +7,12 @@ Implement comprehensive SEO improvements for the Next.js portfolio website using
 ## Tasks
 
 - [ ] 1. Create SEO configuration module and update project interface
-  - [ ] 1.1 Create the centralized SEO config module at `src/lib/seo-config.ts`
+  - [x] 1.1 Create the centralized SEO config module at `src/lib/seo-config.ts`
     - Define the `seoConfig` constant with siteUrl, siteName, ownerName, ownerTwitter, ownerJobTitle, defaultTitle, defaultDescription, defaultOgImage, ogImageDimensions, socialLinks, layoutKeywords, and mainPageKeywords
     - Export the config as a const assertion for type safety
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 2.1, 2.3, 5.1, 7.2, 7.3, 7.4_
 
-  - [ ] 1.2 Extend `ProjectFrontmatter` interface with optional `image` field
+  - [x] 1.2 Extend `ProjectFrontmatter` interface with optional `image` field
     - Add `image?: string` to the `ProjectFrontmatter` interface in `src/lib/projects.ts`
     - _Requirements: 3.5, 3.6_
 
@@ -133,6 +133,53 @@ Implement comprehensive SEO improvements for the Next.js portfolio website using
 - [ ] 7. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
+- [ ] 8. Implement dynamic OG image API route
+  - [ ] 8.1 Create the OG image API route at `src/app/api/og/route.tsx`
+    - Import `ImageResponse` from `next/og` and `NextRequest` from `next/server`
+    - Export `runtime = "edge"` for edge runtime execution
+    - Implement `GET` handler that reads `title`, `description`, and `tags` query parameters
+    - Render an image with dark background (`#0f0f0f`), title at 48px bold white (`#f5f5f5`), description at 24px gray (`#a0a0a0`), tags as blue badges (`#60a5fa` on `#2a2a2a`)
+    - Set image dimensions to 1200×630 pixels
+    - If `title` param is missing or empty, redirect to `/face.png`
+    - Wrap rendering in try/catch; on error redirect to `/face.png`
+    - If `description` is missing, omit the description section
+    - If `tags` is missing, omit the tags section
+    - _Requirements: 12.1, 12.2, 12.3, 12.4, 12.5, 12.6, 14.1, 14.2, 14.3, 14.4, 14.5, 14.6, 15.1, 15.2, 15.3, 15.4_
+
+  - [ ]* 8.2 Write unit tests for OG route
+    - Verify ImageResponse is constructed with width=1200 and height=630
+    - Verify response Content-Type is `image/png`
+    - Verify redirect to `/face.png` when `title` param is missing or empty
+    - Verify redirect to `/face.png` when rendering error occurs (mock ImageResponse to throw)
+    - Verify image renders without description section when `description` param is missing
+    - Verify image renders without tags section when `tags` param is missing
+    - Verify title font size is ≥ 40px and description font size is ≥ 20px in rendered JSX
+    - _Requirements: 12.5, 12.6, 14.1, 14.2, 15.1, 15.2, 15.3, 15.4_
+
+- [ ] 9. Update project page metadata to use dynamic OG image URL
+  - [ ] 9.1 Update `generateMetadata` in `src/app/projects/[slug]/page.tsx` to build dynamic OG image URL
+    - When frontmatter has no `image` field, construct URL as `${seoConfig.siteUrl}/api/og?title=...&description=...&tags=...` with URL-encoded parameters
+    - When frontmatter has an `image` field, use that value directly
+    - Set both `openGraph.images[0].url` and `twitter.images[0].url` to the same resolved URL
+    - Ensure the dynamic OG URL is absolute (prefixed with `seoConfig.siteUrl`)
+    - Only include `tags` param when frontmatter tags array is non-empty
+    - _Requirements: 13.1, 13.2, 13.3, 13.4, 16.1, 16.2_
+
+  - [ ]* 9.2 Write property test for dynamic OG image URL construction
+    - **Property 6: Dynamic OG image URL construction for project pages**
+    - Generate random valid frontmatter without `image` field; verify metadata image URL starts with `seoConfig.siteUrl`, contains path `/api/og`, includes URL-encoded `title` and `description` params matching frontmatter, includes `tags` param (comma-joined) when tags non-empty, omits `tags` param when tags empty
+    - Generate random valid frontmatter with `image` field; verify metadata uses that explicit image value for both OG and Twitter
+    - Verify `openGraph.images[0].url` and `twitter.images[0].url` are identical in both cases
+    - **Validates: Requirements 13.1, 13.2, 13.3, 13.4**
+
+  - [ ]* 9.3 Write unit test verifying main page still uses static `/face.png`
+    - Verify main page metadata `openGraph.images[0].url` is `/face.png` (not dynamic route)
+    - Verify main page metadata `twitter.images[0].url` is `/face.png`
+    - _Requirements: 16.1, 16.2_
+
+- [ ] 10. Checkpoint - Ensure all OG image tests pass
+  - Ensure all tests pass, ask the user if questions arise.
+
 ## Notes
 
 - Tasks marked with `*` are optional and can be skipped for faster MVP
@@ -149,10 +196,10 @@ Implement comprehensive SEO improvements for the Next.js portfolio website using
 {
   "waves": [
     { "id": 0, "tasks": ["1.1", "1.2"] },
-    { "id": 1, "tasks": ["2.1", "2.2", "5.1"] },
-    { "id": 2, "tasks": ["2.3", "3.1", "5.2", "6.1", "6.2"] },
-    { "id": 3, "tasks": ["3.2", "3.3", "3.4", "5.3", "5.5", "6.3", "6.4"] },
-    { "id": 4, "tasks": ["5.4"] }
+    { "id": 1, "tasks": ["2.1", "2.2", "5.1", "8.1"] },
+    { "id": 2, "tasks": ["2.3", "3.1", "5.2", "6.1", "6.2", "8.2"] },
+    { "id": 3, "tasks": ["3.2", "3.3", "3.4", "5.3", "5.5", "6.3", "6.4", "9.1"] },
+    { "id": 4, "tasks": ["5.4", "9.2", "9.3"] }
   ]
 }
 ```

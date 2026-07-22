@@ -9,6 +9,7 @@ export interface ProjectFrontmatter {
   description: string;
   tags: string[];
   date: string;
+  image?: string;
 }
 
 export interface Project {
