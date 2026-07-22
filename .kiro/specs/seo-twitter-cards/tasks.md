@@ -105,19 +105,19 @@ Implement comprehensive SEO improvements for the Next.js portfolio website using
     - Assert no error is thrown and parsed result deeply equals original schema
     - **Validates: Requirements 7.5, 8.8**
 
-- [ ] 6. Implement robots.txt and XML sitemap
-  - [ ] 6.1 Create `src/app/robots.ts` for programmatic robots.txt
+- [x] 6. Implement robots.txt and XML sitemap
+  - [x] 6.1 Create `src/app/robots.ts` for programmatic robots.txt
     - Import `MetadataRoute` type and `seoConfig`
     - Export a default function returning rules with userAgent "*", allow "/", disallow "/api/", and sitemap URL
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5_
 
-  - [ ] 6.2 Create `src/app/sitemap.ts` for dynamic XML sitemap
+  - [x] 6.2 Create `src/app/sitemap.ts` for dynamic XML sitemap
     - Import `MetadataRoute` type, `seoConfig`, and `getAllProjects`
     - Export a default function that returns main page entry plus one entry per project
     - Set lastModified for projects from frontmatter date
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.6, 10.7_
 
-  - [ ]* 6.3 Write property test for sitemap completeness
+  - [x] 6.3 Write property test for sitemap completeness
     - **Property 5: Sitemap includes all valid projects with correct URLs and dates**
     - Generate random sets of projects (0–20) with unique slugs and valid dates
     - Assert exactly one main page entry with url equal to siteUrl
@@ -125,12 +125,12 @@ Implement comprehensive SEO improvements for the Next.js portfolio website using
     - Assert total entries equals projects count + 1
     - **Validates: Requirements 10.3, 10.4, 10.6, 10.7**
 
-  - [ ]* 6.4 Write unit tests for robots.txt and sitemap edge cases
+  - [x] 6.4 Write unit tests for robots.txt and sitemap edge cases
     - Verify robots() output has correct directives (User-agent, Allow, Disallow, Sitemap)
     - Verify sitemap with zero projects returns only main page entry
     - _Requirements: 9.2, 9.3, 9.4, 9.5, 10.7_
 
-- [ ] 7. Final checkpoint - Ensure all tests pass
+- [x] 7. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 8. Implement dynamic OG image API route
